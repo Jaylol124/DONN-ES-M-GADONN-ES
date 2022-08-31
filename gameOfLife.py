@@ -5,8 +5,8 @@ from turtle import heading
 
 class Matrice:
     def __init__(self, hauteur, largeur):
-        self.__hauteur = 10
-        self.__largeur = 10
+        self.hauteur = 10
+        self.largeur = 10
         self.intialisation()
         
     def intialisation(self):
@@ -32,7 +32,7 @@ m = Matrice()
 for i in m.matrice:
             print(i)
             
-class GOLEngine:
+''' class GOLEngine:
     def __init__(self, width, height):
         self.__width = width
         self.__height = height
@@ -77,7 +77,8 @@ def main():
     
     gol_engine.randomize()
     
-    gol_engine.process()
+    gol_engine.process() '''
     
-if __name__ == '__main__':
+''' if __name__ == '__main__':
     main()
+ '''
