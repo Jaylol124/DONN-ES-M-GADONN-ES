@@ -24,12 +24,13 @@ class GOLApp(QtWidgets.QMainWindow):
         # self.set_central_widget(self.__gol_view)
         
         self.__timer = QtCore.QTimer()
-        self.__timer.timeout.connect(self.__process_simulation)
-        self.__timer.start(100)
+        self.__timer.timeout.connect(self.__process_simulation())
+        #self.__timer.start(100)
         
         self.__process_simulation()
 
         self.__pause_button = QPushButton()
+        
         self.__one_step_button = QPushButton()
         self.__speed_scrollBar = QScrollBar()
         value = QLabel('0')
@@ -47,6 +48,7 @@ class GOLApp(QtWidgets.QMainWindow):
         value.alignment = Qt.AlignCenter
 
         self.__pause_button.text = "start"
+        self.__pause_button.clicked.connect(self.__onOff)
         self.__one_step_button.text = "one step button"
 
         small_mixed_layout.add_stretch()
@@ -64,16 +66,18 @@ class GOLApp(QtWidgets.QMainWindow):
 
         self.set_central_widget(central_widget)
 
-
-
-
-
-
         
     @Slot()
     def __process_simulation(self):
         self.__gol_engine.process()
         self.__show_gol()
+        
+    
+    @Slot()
+    def __onOff(self):
+        self.__timer.start(100)
+        self.__pause_button.text = "stop"
+        
 
     def __show_gol(self):
         image = QtGui.QImage(self.__gol_engine.width, self.__gol_engine.height, QtGui.QImage.Format_ARGB32)
