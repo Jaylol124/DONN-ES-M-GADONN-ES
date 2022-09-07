@@ -11,7 +11,7 @@ class GOLEngine:
         self.__temp = None
         #contruire matrice
         
-        self.resize(10,10)
+        self.resize(self.__width,self.__height)
         #self.randomize()
        
     @property
@@ -49,9 +49,9 @@ class GOLEngine:
                 # world[x].append(0 if random.random() <= 0.5 else 1)
                 self.__temp[x].append(0)
 
-        for y in range(self.__height):
-            for x in range(self.__width):
-                self.__temp[x][y] = self.__world[x][y]
+        #for y in range(self.__height):
+        #    for x in range(self.__width):
+        #       self.__temp[x][y] = self.__world[x][y]
 
        
     def randomize(self, percent=0.5):
@@ -82,16 +82,6 @@ class GOLEngine:
                 else:  # vivant
                     # temp[x][y] = 1 if neighbours == 2 or neighbours == 3 else 0
                     self.__temp[x][y] = 1 if neighbours in (2, 3) else 0
-
-        #for y in range(self.__height): #methode pour garder le contour
-        #    for x in range(self.__width):
-        #        if y == 0:
-        #            self.__temp[x][y] = self.__world[x][y]
-        #        if self.__height - 1 > y > 0:
-        #            self.__temp[0][y] = self.__world[0][y]
-        #            self.__temp[self.__width - 1][y] = self.__world[self.__width - 1][y]
-        #        if y == self.__height:
-        #            self.__temp[x][y] = self.__world[x][y]
 
 
         for y in range(self.__height):

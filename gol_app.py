@@ -7,14 +7,14 @@ import random
 from __feature__ import snake_case, true_property
 
 
-from gol_engine import GOLEngine
+from gameOfLifeQuimarche import GOLEngine
 
 
 class GOLApp(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
         
-        self.__gol_engine = GOLEngine(50, 40)
+        self.__gol_engine = GOLEngine(50, 50)
         
         self.set_window_title('Color picker')
         
@@ -36,9 +36,14 @@ class GOLApp(QtWidgets.QMainWindow):
 
     def __show_gol(self):
         image = QtGui.QImage(self.__gol_engine.width, self.__gol_engine.height, QtGui.QImage.Format_ARGB32)
+        #mettre tout noir
+        image.fill(QtGui.QColor(Qt.black).rgb())
+        
         # dessiner
-        for i in range(20):
-            image.set_pixel_color(i, i, QtGui.QColor(random.randint(0,255),0,0))
+        for i in range(self.__gol_engine.width):
+            for j in range(self.__gol_engine.height):
+                if self.__gol_engine._GOLEngine__world[i][j]:
+                    image.set_pixel_color(i, j, QtGui.QColor(255,255,255))
         pixmap = QtGui.QPixmap.from_image(image.scaled(self.__gol_view.width, self.__gol_view.height, Qt.KeepAspectRatio, Qt.FastTransformation))
         self.__gol_view.set_pixmap(pixmap)
         
