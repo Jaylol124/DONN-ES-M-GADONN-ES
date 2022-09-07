@@ -1,7 +1,7 @@
 import sys
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtCore import Qt, Signal, Slot
-from PySide6.QtWidgets import QWidget, QLabel, QScrollBar, QVBoxLayout, QHBoxLayout
+from PySide6.QtWidgets import QWidget, QLabel, QScrollBar, QVBoxLayout, QHBoxLayout, QPushButton, QGroupBox
 import random
 
 from __feature__ import snake_case, true_property
@@ -19,15 +19,56 @@ class GOLApp(QtWidgets.QMainWindow):
         self.set_window_title('Color picker')
         
         self.__gol_view = QLabel()
-        self.__gol_view.alignment = Qt.AlignCenter
+        self.__gol_view.alignment = Qt.AlignRight
                 
-        self.set_central_widget(self.__gol_view)
+        # self.set_central_widget(self.__gol_view)
         
         self.__timer = QtCore.QTimer()
         self.__timer.timeout.connect(self.__process_simulation)
         self.__timer.start(100)
         
         self.__process_simulation()
+
+        self.__pause_button = QPushButton()
+        self.__one_step_button = QPushButton()
+        self.__speed_scrollBar = QScrollBar()
+        value = QLabel('0')
+
+        small_mixed_layout = QVBoxLayout()
+        small_mixed_layout.add_widget(self.__pause_button)
+        small_mixed_layout.add_widget(self.__one_step_button)
+        small_mixed_layout.add_widget(self.__speed_scrollBar)
+        small_mixed_layout.add_widget(value)
+
+        self.__speed_scrollBar.orientation = Qt.Horizontal
+        self.__speed_scrollBar.minimum_width = 10
+        self.__speed_scrollBar.valueChanged.connect(value.set_num)
+
+        value.alignment = Qt.AlignCenter
+
+        self.__pause_button.text = "start"
+        self.__one_step_button.text = "one step button"
+
+        small_mixed_layout.add_stretch()
+
+        small_mixed_gbox = QGroupBox()
+        small_mixed_gbox.set_layout(small_mixed_layout)
+
+        mixed_layout = QHBoxLayout()
+        mixed_layout.add_widget(small_mixed_gbox)
+        mixed_layout.add_widget(self.__gol_view)
+
+
+        central_widget = QWidget()
+        central_widget.set_layout(mixed_layout)
+
+        self.set_central_widget(central_widget)
+
+
+
+
+
+
         
     @Slot()
     def __process_simulation(self):
