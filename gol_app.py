@@ -24,7 +24,7 @@ class GOLApp(QtWidgets.QMainWindow):
         # self.set_central_widget(self.__gol_view)
         
         self.__timer = QtCore.QTimer()
-        self.__timer.timeout.connect(self.__process_simulation())
+        self.__timer.timeout.connect(self.__process_simulation)
         #self.__timer.start(100)
         
         self.__process_simulation()
@@ -43,13 +43,18 @@ class GOLApp(QtWidgets.QMainWindow):
 
         self.__speed_scrollBar.orientation = Qt.Horizontal
         self.__speed_scrollBar.minimum_width = 10
+
         self.__speed_scrollBar.valueChanged.connect(value.set_num)
+
+        #if (self.__pause_button.text == "stop"):
+        #    self.__timer.start(int(value.text))
 
         value.alignment = Qt.AlignCenter
 
         self.__pause_button.text = "start"
-        self.__pause_button.clicked.connect(self.__onOff)
+        self.__pause_button.clicked.connect(self.__on_off)
         self.__one_step_button.text = "one step button"
+        self.__one_step_button.clicked.connect(self.__one_step)
 
         small_mixed_layout.add_stretch()
 
@@ -74,10 +79,31 @@ class GOLApp(QtWidgets.QMainWindow):
         
     
     @Slot()
-    def __onOff(self):
-        self.__timer.start(100)
-        self.__pause_button.text = "stop"
-        
+    def __on_off(self):
+
+        if (self.__pause_button.text == "stop"):
+            self.__timer.stop()
+            self.__pause_button.text = "start"
+        else:
+            self.__pause_button.text = "stop"
+            self.__timer.start(100)
+            #self.__timer.start(self.__speed_scrollBar.valueChanged())
+
+    @Slot()
+    def __one_step(self):
+        if(self.__pause_button.text == "start"):
+            self.__timer.stop()
+            self.__gol_engine.process()
+            self.__show_gol()
+
+    #@Slot()
+    #def __vitesse(self):
+
+
+
+
+
+
 
     def __show_gol(self):
         image = QtGui.QImage(self.__gol_engine.width, self.__gol_engine.height, QtGui.QImage.Format_ARGB32)
