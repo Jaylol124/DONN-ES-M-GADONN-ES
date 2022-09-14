@@ -25,7 +25,6 @@ class GOLApp(QtWidgets.QMainWindow):
         
         self.__timer = QtCore.QTimer()
         self.__timer.timeout.connect(self.__process_simulation)
-        #self.__timer.start(100)
         
         self.__process_simulation()
 
@@ -45,9 +44,7 @@ class GOLApp(QtWidgets.QMainWindow):
         self.__speed_scrollBar.minimum_width = 10
 
         self.__speed_scrollBar.valueChanged.connect(value.set_num)
-
-        #if (self.__pause_button.text == "stop"):
-        #    self.__timer.start(int(value.text))
+        self.__speed_scrollBar.valueChanged.connect(self.__vitesse)
 
         value.alignment = Qt.AlignCenter
 
@@ -86,8 +83,8 @@ class GOLApp(QtWidgets.QMainWindow):
             self.__pause_button.text = "start"
         else:
             self.__pause_button.text = "stop"
-            #self.__timer.start(100)
-            self.__timer.start(self.__speed_scrollBar.value)
+            self.__timer.start(100)
+
 
     @Slot()
     def __one_step(self):
@@ -96,13 +93,10 @@ class GOLApp(QtWidgets.QMainWindow):
             self.__gol_engine.process()
             self.__show_gol()
 
-    #@Slot()
-    #def __vitesse(self):
-
-
-
-
-
+    @Slot()
+    def __vitesse(self):
+        if (self.__pause_button.text == "stop"):
+            self.__timer.start(self.__speed_scrollBar.value)
 
 
     def __show_gol(self):
