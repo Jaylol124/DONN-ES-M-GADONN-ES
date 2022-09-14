@@ -86,8 +86,8 @@ class GOLApp(QtWidgets.QMainWindow):
             self.__pause_button.text = "start"
         else:
             self.__pause_button.text = "stop"
-            self.__timer.start(100)
-            #self.__timer.start(self.__speed_scrollBar.valueChanged())
+            #self.__timer.start(100)
+            self.__timer.start(self.__speed_scrollBar.value)
 
     @Slot()
     def __one_step(self):
